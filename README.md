@@ -35,7 +35,7 @@ La arquitectura del proyecto se basa en un enfoque de microservicios y reactivo,
 
 ## Estructura de Carpetas (Propuesta)
 ```
-grpc-order-service/
+## grpc-order-service/
 ├── build.gradle.kts         # Configuración Gradle (Kotlin DSL recomendado)
 ├── settings.gradle.kts
 ├── README.md
@@ -66,3 +66,15 @@ grpc-order-service/
 │               │   └── OrderServiceImplTest.java    # Test del servicio gRPC
 │               └── ...                              # Otros tests
 ```
+## Monitoreo de Métricas con Prometheus
+
+La aplicación expone métricas utilizando **Spring Boot Actuator** y el endpoint compatible con **Prometheus**.
+
+📍 Puedes acceder a las métricas en tiempo real desde:
+
+👉 [http://localhost:9898/actuator/prometheus](http://localhost:9898/actuator/prometheus)
+
+Este endpoint incluye información sobre:
+- Contadores personalizados como `orders_processed_total`
+- Métricas del sistema (CPU, memoria, GC)
+- Métricas de WebFlux y beans de Spring
