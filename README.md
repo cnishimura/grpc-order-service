@@ -7,19 +7,19 @@ Este proyecto tiene como objetivo crear una aplicación simple de procesamiento 
 
 El proyecto se construirá cumpliendo con los siguientes requisitos:
 
-* [cite_start]**Spring Boot**: Framework principal para el desarrollo de la aplicación.
-* [cite_start]**Gradle**: Herramienta de automatización de construcción.
-* [cite_start]**Java 17**: Versión del lenguaje de programación.
-* [cite_start]**Spring Data MongoDB Reactive**: Para la interacción reactiva con MongoDB.
-* [cite_start]**Spring Webflux**: Para construir APIs reactivas.
-* [cite_start]**Spring Log4j2**: Para el manejo de logs, utilizando `log4j2.yml` en lugar de `log4j2.xml`.
-* [cite_start]**Spring Actuator**: Para monitoreo y métricas Prometheus, incluyendo al menos un contador.
-* [cite_start]**gRPC**: Para la creación de un servicio de inserción de pedidos, debe contar con ID del pedido, ID de cliente, número de teléfono del cliente y lista de ítems del pedido. [cite_start]La respuesta debe contar con el ID del pedido y un estado.
-* [cite_start]**Akka Classic Actors**: Para el procesamiento asíncrono de pedidos. [cite_start]Se debe crear un actor que procese los pedidos ingresados por gRPC, y el actor debe enviar la respuesta gRPC cuando finalice de procesar el pedido.
-* [cite_start]**MongoDB**: Base de datos NoSQL para almacenar la información de los pedidos. [cite_start]El actor finaliza el pedido insertando la información del pedido en MongoDB, con la siguiente estructura para la clase `Order`: `_id` (ObjectId), `orderId`, `customerId`, `customerPhoneNumber`, `status`, `items` (List<String>), y `ts` (OffsetDateTime).
-* [cite_start]**Librería SMPP (fizzed/cloudhopper-smpp)**: Para el envío de SMS por SMPP. [cite_start]Se debe crear un cliente SMPP y enviar un SMS con el texto: "Your order " + `request.getOrderld()` + " has been processed", una vez el actor termina de procesar el pedido.
-* [cite_start]**API REST (Spring Webflux)**: Un endpoint para consultar el estado del pedido, y un endpoint para consultar el total de pedidos por rango de fecha, usando `OffsetDateTime` para el rango.
-* [cite_start]**Logs**: Insertar logs convenientemente en cualquier parte del código.
+* **Spring Boot**: Framework principal para el desarrollo de la aplicación.
+* **Gradle**: Herramienta de automatización de construcción.
+* **Java 17**: Versión del lenguaje de programación.
+* **Spring Data MongoDB Reactive**: Para la interacción reactiva con MongoDB.
+* **Spring Webflux**: Para construir APIs reactivas.
+* **Spring Log4j2**: Para el manejo de logs, utilizando `log4j2.yml` en lugar de `log4j2.xml`.
+* **Spring Actuator**: Para monitoreo y métricas Prometheus, incluyendo al menos un contador.
+* **gRPC**: Para la creación de un servicio de inserción de pedidos, debe contar con ID del pedido, ID de cliente, número de teléfono del cliente y lista de ítems del pedido. [cite_start]La respuesta debe contar con el ID del pedido y un estado.
+* **Akka Classic Actors**: Para el procesamiento asíncrono de pedidos. [cite_start]Se debe crear un actor que procese los pedidos ingresados por gRPC, y el actor debe enviar la respuesta gRPC cuando finalice de procesar el pedido.
+* **MongoDB**: Base de datos NoSQL para almacenar la información de los pedidos. [cite_start]El actor finaliza el pedido insertando la información del pedido en MongoDB, con la siguiente estructura para la clase `Order`: `_id` (ObjectId), `orderId`, `customerId`, `customerPhoneNumber`, `status`, `items` (List<String>), y `ts` (OffsetDateTime).
+* **Librería SMPP (fizzed/cloudhopper-smpp)**: Para el envío de SMS por SMPP. [cite_start]Se debe crear un cliente SMPP y enviar un SMS con el texto: "Your order " + `request.getOrderld()` + " has been processed", una vez el actor termina de procesar el pedido.
+* **API REST (Spring Webflux)**: Un endpoint para consultar el estado del pedido, y un endpoint para consultar el total de pedidos por rango de fecha, usando `OffsetDateTime` para el rango.
+* **Logs**: Insertar logs convenientemente en cualquier parte del código.
 
 ## Arquitectura del Proyecto
 
@@ -35,3 +35,33 @@ La arquitectura del proyecto se basa en un enfoque de microservicios y reactivo,
 
 ## Estructura de Carpetas (Propuesta)
 
+grpc-order-service/
+├── build.gradle.kts         # Configuración Gradle (Kotlin DSL recomendado)
+├── settings.gradle.kts
+├── README.md
+├── .gitignore
+
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── com/hacom/order/
+│   │   │       ├── grpc/
+│   │   │       │   ├── OrderServiceImpl.java        # Implementación del servicio gRPC
+│   │   │       │   └── proto/                       # Clases generadas de .proto
+│   │   │       ├── model/                           # Entidad Order.java
+│   │   │       ├── repository/                      # MongoDB Reactive Repository
+│   │   │       ├── smpp/                            # Cliente SMPP (Cloudhopper)
+│   │   │       ├── metrics/                         # Clase OrderMetricsService
+│   │   │       └── akka/                            # OrderProcessor (actor Akka)
+│   │   ├── proto/
+│   │   │   └── order.proto                          # Definición gRPC
+│   │   └── resources/
+│   │       ├── application.yml                     # Configuración Spring
+│   │       └── logback.xml                         # Logging (opcional)
+│
+│   └── test/
+│       └── java/
+│           └── com/hacom/order/
+│               ├── grpc/
+│               │   └── OrderServiceImplTest.java    # Test del servicio gRPC
+│               └── ...                              # Otros tests
