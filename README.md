@@ -34,7 +34,7 @@ La arquitectura del proyecto se basa en un enfoque de microservicios y reactivo,
 7.  **Logging (Log4j2)**: Gestiona los logs de la aplicación.
 
 ## Estructura de Carpetas (Propuesta)
-
+```
 grpc-order-service/
 ├── build.gradle.kts         # Configuración Gradle (Kotlin DSL recomendado)
 ├── settings.gradle.kts
@@ -65,3 +65,4 @@ grpc-order-service/
 │               ├── grpc/
 │               │   └── OrderServiceImplTest.java    # Test del servicio gRPC
 │               └── ...                              # Otros tests
+```
