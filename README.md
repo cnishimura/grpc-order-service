@@ -1,4 +1,4 @@
-# Proyecto: Procesamiento de Pedidos HACOM
+# Proyecto: Procesamiento de Pedidos CNISHIMURA
 
 ## Objetivo del Proyecto
 Este proyecto tiene como objetivo crear una aplicación simple de procesamiento de pedidos, integrando diversas tecnologías comunes en proyectos tipo Telco en HACOM. El propósito es evaluar la capacidad de poner en marcha un proyecto simple.
