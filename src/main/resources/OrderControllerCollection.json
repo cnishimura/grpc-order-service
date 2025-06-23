@@ -1,0 +1,50 @@
+{
+  "info": {
+    "name": "OrderController",
+    "_postman_id": "3a1e1a94-9022-4a6f-a399-abc123456789",
+    "description": "Colección para consultar pedidos por ID y por rango de fechas",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get Order by OrderId",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/orders/12345",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["orders", "12345"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Orders by Date Range",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/orders/count?from=2025-06-01T00:00:00Z&to=2025-06-30T23:59:59Z",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["orders", "count"],
+          "query": [
+            {
+              "key": "from",
+              "value": "2025-06-01T00:00:00Z"
+            },
+            {
+              "key": "to",
+              "value": "2025-06-30T23:59:59Z"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
