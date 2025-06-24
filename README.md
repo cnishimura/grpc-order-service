@@ -78,3 +78,14 @@ Este endpoint incluye información sobre:
 - Contadores personalizados como `orders_processed_total`
 - Métricas del sistema (CPU, memoria, GC)
 - Métricas de WebFlux y beans de Spring
+
+## Archivos Adicionales
+
+El proyecto incluye los siguientes archivos de soporte que facilitan su uso, pruebas y verificación:
+
+- 📦 **Postman Collection**: Para probar fácilmente los endpoints gRPC (vía gateway si aplica) y REST.
+- 🐳 **Docker Compose (`docker-compose.yml`)**: Permite levantar los servicios requeridos como MongoDB y otros de forma local.
+- 📄 **Documento de Evidencia (`evidencia-proyecto.docx`)**: Contiene capturas, descripciones y validaciones de funcionamiento de cada módulo del sistema.
+
+Estos recursos se encuentran en el directorio raíz del proyecto o dentro de una carpeta `/doc`,  `/resources` según corresponda.
+
