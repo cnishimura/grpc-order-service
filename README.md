@@ -1,7 +1,7 @@
-# Proyecto: Procesamiento de Pedidos HACOM
+# Proyecto: Procesamiento de Pedidos CNISHIMURA
 
 ## Objetivo del Proyecto
-Este proyecto tiene como objetivo crear una aplicación simple de procesamiento de pedidos, integrando diversas tecnologías comunes en proyectos tipo Telco en HACOM. [cite_start]El propósito es evaluar la capacidad de poner en marcha un proyecto simple.
+Este proyecto tiene como objetivo crear una aplicación simple de procesamiento de pedidos, integrando diversas tecnologías comunes en proyectos tipo Telco en HACOM. El propósito es evaluar la capacidad de poner en marcha un proyecto simple.
 
 ## Requisitos y Tecnologías Utilizadas
 
@@ -17,7 +17,7 @@ El proyecto se construirá cumpliendo con los siguientes requisitos:
 * **gRPC**: Para la creación de un servicio de inserción de pedidos, debe contar con ID del pedido, ID de cliente, número de teléfono del cliente y lista de ítems del pedido. [cite_start]La respuesta debe contar con el ID del pedido y un estado.
 * **Akka Classic Actors**: Para el procesamiento asíncrono de pedidos. Se debe crear un actor que procese los pedidos ingresados por gRPC, y el actor debe enviar la respuesta gRPC cuando finalice de procesar el pedido.
 * **MongoDB**: Base de datos NoSQL para almacenar la información de los pedidos. El actor finaliza el pedido insertando la información del pedido en MongoDB, con la siguiente estructura para la clase `Order`: `_id` (ObjectId), `orderId`, `customerId`, `customerPhoneNumber`, `status`, `items` (List<String>), y `ts` (OffsetDateTime).
-* **Librería SMPP (fizzed/cloudhopper-smpp)**: Para el envío de SMS por SMPP. [cite_start]Se debe crear un cliente SMPP y enviar un SMS con el texto: "Your order " + `request.getOrderld()` + " has been processed", una vez el actor termina de procesar el pedido.
+* **Librería SMPP (fizzed/cloudhopper-smpp)**: Para el envío de SMS por SMPP. Se debe crear un cliente SMPP y enviar un SMS con el texto: "Your order " + `request.getOrderld()` + " has been processed", una vez el actor termina de procesar el pedido.
 * **API REST (Spring Webflux)**: Un endpoint para consultar el estado del pedido, y un endpoint para consultar el total de pedidos por rango de fecha, usando `OffsetDateTime` para el rango.
 * **Logs**: Insertar logs convenientemente en cualquier parte del código.
 
@@ -35,7 +35,8 @@ La arquitectura del proyecto se basa en un enfoque de microservicios y reactivo,
 
 ## Estructura de Carpetas (Propuesta)
 
-grpc-order-service/
+## grpc-order-service/
+
 ```
 ├── build.gradle.kts         # Configuración Gradle (Kotlin DSL recomendado)
 ├── settings.gradle.kts
@@ -66,4 +67,27 @@ grpc-order-service/
 │               ├── grpc/
 │               │   └── OrderServiceImplTest.java    # Test del servicio gRPC
 │               └── ...                              # Otros tests
+
 ```
+## Monitoreo de Métricas con Prometheus
+
+La aplicación expone métricas utilizando **Spring Boot Actuator** y el endpoint compatible con **Prometheus**.
+
+📍 Puedes acceder a las métricas en tiempo real desde:
+
+👉 [http://localhost:9898/actuator/prometheus](http://localhost:9898/actuator/prometheus)
+
+Este endpoint incluye información sobre:
+- Contadores personalizados como `orders_processed_total`
+- Métricas del sistema (CPU, memoria, GC)
+- Métricas de WebFlux y beans de Spring
+
+## Archivos Adicionales
+
+El proyecto incluye los siguientes archivos de soporte que facilitan su uso, pruebas y verificación:
+
+- 📦 **Postman Collection**: Para probar fácilmente los endpoints gRPC (vía gateway si aplica) y REST.
+- 🐳 **Docker Compose (`docker-compose.yml`)**: Permite levantar los servicios requeridos como MongoDB y otros de forma local.
+- 📄 **Documento de Evidencia (`evidencia-proyecto.docx`)**: Contiene capturas, descripciones y validaciones de funcionamiento de cada módulo del sistema.
+
+Estos recursos se encuentran en el directorio raíz del proyecto o dentro de una carpeta `/doc`,  `/resources` según corresponda.
