@@ -15,8 +15,8 @@ El proyecto se construirá cumpliendo con los siguientes requisitos:
 * **Spring Log4j2**: Para el manejo de logs, utilizando `log4j2.yml` en lugar de `log4j2.xml`.
 * **Spring Actuator**: Para monitoreo y métricas Prometheus, incluyendo al menos un contador.
 * **gRPC**: Para la creación de un servicio de inserción de pedidos, debe contar con ID del pedido, ID de cliente, número de teléfono del cliente y lista de ítems del pedido. [cite_start]La respuesta debe contar con el ID del pedido y un estado.
-* **Akka Classic Actors**: Para el procesamiento asíncrono de pedidos. [cite_start]Se debe crear un actor que procese los pedidos ingresados por gRPC, y el actor debe enviar la respuesta gRPC cuando finalice de procesar el pedido.
-* **MongoDB**: Base de datos NoSQL para almacenar la información de los pedidos. [cite_start]El actor finaliza el pedido insertando la información del pedido en MongoDB, con la siguiente estructura para la clase `Order`: `_id` (ObjectId), `orderId`, `customerId`, `customerPhoneNumber`, `status`, `items` (List<String>), y `ts` (OffsetDateTime).
+* **Akka Classic Actors**: Para el procesamiento asíncrono de pedidos. Se debe crear un actor que procese los pedidos ingresados por gRPC, y el actor debe enviar la respuesta gRPC cuando finalice de procesar el pedido.
+* **MongoDB**: Base de datos NoSQL para almacenar la información de los pedidos. El actor finaliza el pedido insertando la información del pedido en MongoDB, con la siguiente estructura para la clase `Order`: `_id` (ObjectId), `orderId`, `customerId`, `customerPhoneNumber`, `status`, `items` (List<String>), y `ts` (OffsetDateTime).
 * **Librería SMPP (fizzed/cloudhopper-smpp)**: Para el envío de SMS por SMPP. [cite_start]Se debe crear un cliente SMPP y enviar un SMS con el texto: "Your order " + `request.getOrderld()` + " has been processed", una vez el actor termina de procesar el pedido.
 * **API REST (Spring Webflux)**: Un endpoint para consultar el estado del pedido, y un endpoint para consultar el total de pedidos por rango de fecha, usando `OffsetDateTime` para el rango.
 * **Logs**: Insertar logs convenientemente en cualquier parte del código.
@@ -36,6 +36,7 @@ La arquitectura del proyecto se basa en un enfoque de microservicios y reactivo,
 ## Estructura de Carpetas (Propuesta)
 
 grpc-order-service/
+```
 ├── build.gradle.kts         # Configuración Gradle (Kotlin DSL recomendado)
 ├── settings.gradle.kts
 ├── README.md
@@ -65,3 +66,4 @@ grpc-order-service/
 │               ├── grpc/
 │               │   └── OrderServiceImplTest.java    # Test del servicio gRPC
 │               └── ...                              # Otros tests
+```
